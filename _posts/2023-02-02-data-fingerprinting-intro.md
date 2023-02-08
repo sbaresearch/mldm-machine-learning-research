@@ -19,11 +19,11 @@ This scenario at the same time describes the goals and the abilities of an owner
 # What is data fingerprinting
 Data fingerprinting is a method of embedding a traceable mark into digital data to verify the owner and identify the recipient of a released copy of a data set. It falls under the area of _steganography_, a group of methods where information is represented or hiden within another digital or physical object, in such a manner that the presence of the information is not evident to human inspection. Fingerprinting draws the motivation from a well-known method of digital content protection, _watermarking_. 
 
-![](/assets/img/data-fingerprinting/watermarkprotection.png)
+![](/assets/img/data-fingerprinting-intro/watermarkprotection.png)
 
 While this type of image watermarking is obvious and [relatively easy to remove](https://www.dpreview.com/news/6322652598/shutterstock-s-new-watermarking-system-foils-google-s-ai), an important requirement for fingerprinting is to be imperceptible to human inspection. For images, this might mean changing a few pixels in a pattern known only to the content owner. In images and other types of multimedia (audio, video), it is easy to embed the imperceptible modifications due to large redundancy in content representation. Other types of digital content are more succeptible to intentional modifications and need more careful strategies of emebedding a mark. Historically, probably one of the first attamepts to protect ownership via such marks appeared in cartography. According to the article in Atlas Obscura[link], there are many examples of cartographers including "trap" streets, towns, rivers, and other elements into the maps - completely faulty information that helps detecting copyright violations. 
 
-![](/assets/img/data-fingerprinting/mapswatermark.png)
+![](/assets/img/data-fingerprinting-intro/mapswatermark.png)
 
 Since then, watermarking has been applied in many other areas of digital content, such as multimedia (text, audio, video), text, software, tabular data, sequential data and machine learning models. 
 
@@ -40,15 +40,15 @@ For instance, the fingerprint bit at the position 0 will cause the value 1 to ch
 
 | Original data | After fingerprinting |
 | :------------------------- |:------------------------- |
-| ![](/assets/img/data-fingerprinting/table0.PNG) | ![](/assets/img/data-fingerprinting/table1.PNG) |
+| ![](/assets/img/data-fingerprinting-intro/table0.PNG) | ![](/assets/img/data-fingerprinting-intro/table1.PNG) |
 
 The _extraction algorithm_ is an inverse process of embedding - it detects the fingerprint from the fingerprinted data set. This works because the same pseudo-random sequence generator is used to find the locations of modifications (note that only the owner with their secret key can reproduce this sequence) and the modification itself then reveals a fingerprint bit. 
 
 # Robustness
 It is important to take into account malicious actions that may interfere with correct fingerprint detection. For the fingerprint to be successfully extracted from data, there needs to be an evidence of each fingerprint bit in the data. This can be compromised by removing or changing parts of data. If the fingerprint cannot be extracted from the data, it is not possible to identify the source of the unauthorised usage: 
-![](/assets/img/data-fingerprinting/table4.PNG)
+![](/assets/img/data-fingerprinting/table4-intro.PNG)
 Therefore, each fingerprint bit is embedded with enough redundancy into the data such that, even if parts of it are removed or modified, the detection process still successfully extracts the fingerprint from the fingerprinted data:
-![](/assets/img/data-fingerprinting/table5.PNG)
+![](/assets/img/data-fingerprinting/table5-intro.PNG)
 Intuitivelly, the more marks embedded in data, the more robust fingerprint will be. However, since more marks means modifying the original data more, this necessarily implies some utility loss. Therefore, a challenge for fingerprinting techniques is to **provide a robust ownership protection mechanism while keeping the original data utility as well as possible**.
 
 # Fingerprinting a data set
@@ -90,7 +90,7 @@ The percentage of modified values per attribute is rather low. But how significa
 
 We can see that mean and standard deviation are very similar between the original and fingerprinted data. This is because the fingerprint only introduces minor changes into the values by changing one or more least significant bits of the numerical value. For categorical data the changes are discrete so we can just have a look at the change of distributions and observe minimal changes, as well:
 
-![](/assets/img/data-fingerprinting/distributions.png)
+![](/assets/img/data-fingerprinting-intro/distributions.png)
 
 
 ## Evaluating robustness
@@ -102,7 +102,7 @@ Deleting a few rows/columns might not do much to disrupt the fingerprint, but to
 
 | Horizontal attack | Vertical attack |
 | :------------------------- |:------------------------- |
-| ![](/assets/img/data-fingerprinting/horizontal_attack.png) | ![](/assets/img/data-fingerprinting/vertical_attack.png) |
+| ![](/assets/img/data-fingerprinting-intro/horizontal_attack.png) | ![](/assets/img/data-fingerprinting-intro/vertical_attack.png) |
 
 We can see that the fingerprint gets correctly detected with 100% accuracy (10/10) up until the attacker removes more than 50% of the rows which can be considered a fairly good robustness. Even when 50-75% of rows are removed, the detection algorithm has a good detection rate, and only completely fails when about 80% rows are removed. 
 Removing entire columns has a slightly bigger impact on the detection rate - 100% extraction rate is shown only if 1 column is deteled by the attacker (any column). With more deleted columns there is a degradation. The detection is expected to completely fail if more than 3 (out of 7) columns are completely removed from the data set. 
